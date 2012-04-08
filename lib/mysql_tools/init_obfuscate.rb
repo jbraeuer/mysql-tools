@@ -1,14 +1,6 @@
 module MysqlTools
   class InitObfuscate
 
-#    # -*- mode: ruby -*-
-#    {
-#      :sitaddresses => {
-#        :p_email      => { :type => :email },
-#        :p_streetname => { :type => :string, :length => 8, :chars => MyObfuscate::USERNAME_CHARS }
-#      }
-#    }
-
     def self.init
       desc "Initialize obfuscate file"
       command :initobfuscate do |c|
@@ -16,7 +8,7 @@ module MysqlTools
         c.desc "Output filename"
         c.arg_name "FILENAME"
         c.default_value '~/.mysql-tools.obfuscate'
-        c.flag [:'output-file']
+        c.flag [:'obfuscate-file']
 
         c.action do |global,command,args|
           MysqlTools::InitObfuscate.new(global, command,args).run
@@ -36,8 +28,24 @@ module MysqlTools
     end
 
     def run
-      puts "Work work work."
-      raise "Not implemented yet."
+
+      data = <<-EOS
+		# -*- mode: ruby -*-
+		{
+		  :sitaddresses => {
+		    :p_email      => { :type => :email },
+		    :p_streetname => { :type => :string, :length => 8, :chars => MyObfuscate::USERNAME_CHARS }
+		  }
+		}
+		EOS
+      filename = File.expand_path @options[:'obfuscate-file']
+      if File.exist? filename
+        raise "File already exits. Please remove: '#{filename}'"
+      end
+      File.open(filename,'w', 0600) do |file|
+        file.write(data.gsub("\t", ""))
+        log "File created: '#{filename}'"
+      end
     end
   end
 end
