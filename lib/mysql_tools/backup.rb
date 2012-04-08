@@ -44,7 +44,8 @@ module MysqlTools
 
     def run
       @args.each do |database_name|
-        mysqldump = ["mysqldump", "--quick", "--single-transaction", "--complete-insert",
+        mysqldump = ["mysqldump", "--quick", "--single-transaction", "--hex-blob",
+                     "--complete-insert", "--default-character-set=utf8",
                      "--user=#{@global[:username]}", "--password=#{@global[:password]}", database_name]
         gzip = ["nice", "pigz"]
 
