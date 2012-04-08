@@ -19,7 +19,7 @@ module MysqlTools
 
         c.desc "Output filename"
         c.arg_name "FILENAME"
-        c.default_value '#{dump_file}.obfuscate'
+        c.default_value '#{dump_file.gsub(".gz", "")}.obfuscate.gz'
         c.flag [:'output-file']
 
         c.action do |global,command,args|
