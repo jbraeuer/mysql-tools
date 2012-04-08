@@ -1,6 +1,14 @@
 module MysqlTools
   class InitObfuscate
 
+#    # -*- mode: ruby -*-
+#    {
+#      :sitaddresses => {
+#        :p_email      => { :type => :email },
+#        :p_streetname => { :type => :string, :length => 8, :chars => MyObfuscate::USERNAME_CHARS }
+#      }
+#    }
+
     def self.init
       desc "Initialize obfuscate file"
       command :initobfuscate do |c|
