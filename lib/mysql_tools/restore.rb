@@ -1,3 +1,6 @@
+require 'mysql2'
+require 'open3'
+
 module MysqlTools
   class Restore
 
@@ -16,12 +19,12 @@ module MysqlTools
 
         c.desc "DB Username"
         c.arg_name "USER"
-        c.default_value 'root'
+        c.default_value 'user'
         c.flag [:'db-username']
 
         c.desc "DB Password"
         c.arg_name "PASSWORD"
-        c.default_value 'secret'
+        c.default_value 'password'
         c.flag [:'db-password']
 
         c.action do |global,command,args|
@@ -43,8 +46,22 @@ module MysqlTools
     end
 
     def run
-      puts "Work work work."
-      raise "Not implemented yet."
+      dump = @args.first
+
+      conn = Mysql2::Client.new(:host => "localhost", :username => @global[:username], :password => @global[:password])
+      verbose "Connected to #{conn.server_info}"
+
+      conn.query "drop database if exists #{@options[:db]}"
+      conn.query "create database #{@options[:db]}"
+      conn.query "grant all privileges ON #{@options[:db]}.* TO '#{@options[:'db-username']}'@'%' IDENTIFIED BY '#{@options[:'db-password']}' with grant OPTION;"
+      conn.close
+      verbose "Database created, user rights granted."
+
+      zcat = ["zcat", dump]
+      mysql = [ "mysql", "--user=#{@options[:'db-username']}", "--password=#{@options[:'db-password']}", @options[:db] ]
+      Open3.pipeline(zcat, mysql).each do |s|
+        raise "Process failed: #{s.exitstatus}" unless s.exitstatus == 0
+      end
     end
   end
 end
