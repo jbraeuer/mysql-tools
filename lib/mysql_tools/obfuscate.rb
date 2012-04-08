@@ -1,3 +1,6 @@
+require 'my_obfuscate'
+require 'zlib'
+
 module MysqlTools
   class Obfuscate
 
@@ -38,8 +41,22 @@ module MysqlTools
     end
 
     def run
-      puts "Work work work."
-      raise "Not implemented yet."
+      obfuscate_def = IO.read File.expand_path(@options[:'obfuscate-file'])
+      obfuscate_hash = eval obfuscate_def
+
+      @args.each do |dump_file|
+        obfuscator = MyObfuscate.new(obfuscate_hash)
+
+        input = Zlib::GzipReader.new File.open(File.expand_path(dump_file),'r')
+
+        output_file = eval( '"' + @options[:'output-file'] + '"' )
+        output = Zlib::GzipWriter.new File.open(output_file, 'w')
+
+        obfuscator.obfuscate(input, output)
+
+        input.close
+        output.close
+      end
     end
   end
 end
