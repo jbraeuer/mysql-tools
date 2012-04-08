@@ -9,24 +9,50 @@ program_desc 'Backup, Restore and Obfuscate Mysql databases.'
 version      IO.read(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../VERSION')).strip
 
 pre do |global,command,options,args|
-  # Pre logic here
-  # Return true to proceed; false to abort and not call the
-  # chosen command
-  # Use skips_pre before a command to skip this block
-  # on that command only
-  true
+  setup_logging(global)
+
+  case command.name
+  when :backup
+    MysqlTools::Backup.pre(global, options, args)
+  else
+    true
+  end
 end
 
 post do |global,command,options,args|
-  # Post logic here
-  # Use skips_post before a command to skip this
-  # block on that command only
 end
 
 on_error do |exception|
-  # Error logic here
-  # return false to skip default error handling
   true
+end
+
+desc "Username for Mysql connection"
+arg_name "USER"
+default_value "root"
+flag [:u, :username]
+
+desc "Password for Mysql connection"
+arg_name "PASS"
+default_value "secret"
+flag [:p, :password]
+
+desc "Mysql host to connect"
+arg_name "HOST"
+default_value "localhost"
+flag [:host]
+
+desc "Verbose mode"
+default_value false
+switch [:verbose]
+
+desc "Backup a database"
+arg_name "database_name"
+command :backup do |c|
+  c.action do |global,command,args|
+    puts "#{global.inspect}"
+    puts "#{command.inspect}"
+    puts "#{args.inspect}"
+  end
 end
 
 exit GLI.run(ARGV)
