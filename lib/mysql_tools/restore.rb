@@ -48,6 +48,8 @@ module MysqlTools
     def run
       dump = @args.first
 
+      log "Will restore '#{dump}' to database '#{@options[:db]}'. This may take some time."
+
       conn = Mysql2::Client.new(:host => "localhost", :username => @global[:username], :password => @global[:password])
       verbose "Connected to #{conn.server_info}"
 
