@@ -54,6 +54,7 @@ module MysqlTools
         output = File.join(@options[:'output-path'], output_file)
 
         log "Will backup database '#{database_name}'. Output to #{output}"
+        File.umask 0077
         Open3.pipeline(mysqldump, gzip, :out => output, :in => "/dev/null").each do |s|
           raise "Process failed: #{s.exitstatus}" unless s.exitstatus == 0
         end
