@@ -21,4 +21,6 @@ task :pkg => [:clean]
 # - pkg, gem, package task
 # ----------------------------------------
 spec = eval(File.read('mysql-tools.gemspec'))
-Gem::PackageTask.new(spec) { |pkg| }
+spec.version = IO.read("VERSION").strip
+Gem::PackageTask.new(spec) do |pkg|
+end

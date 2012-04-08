@@ -3,7 +3,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "mysql-tools"
-  s.version     = "0.1.0"
+  s.version     = "9999.9.9"
   s.platform    = Gem::Platform::RUBY
   s.authors     = [ "Jens Braeuer" ]
   s.email       = [ "braeuer.jens@googlemail.com" ]
