@@ -2,4 +2,6 @@
 Gemfile.lock
 pkg
 *.sql
+*.sql.gz
 *.sql.obfuscate
+*.sql.obfuscate.gz
