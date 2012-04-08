@@ -1,3 +1,5 @@
+require 'open3'
+
 module MysqlTools
   class Backup
 
@@ -41,8 +43,20 @@ module MysqlTools
     end
 
     def run
-      puts "Work work work."
-      raise "Not implemented yet."
+      @args.each do |database_name|
+        mysqldump = ["mysqldump", "--quick", "--single-transaction", "--complete-insert",
+                     "--user=#{@global[:username]}", "--password=#{@global[:password]}", database_name]
+        gzip = ["nice", "pigz"]
+
+        timestamp = Time.now.strftime("%Y%m%d-%H%M%S")
+        output_file = eval( '"' + @options[:'output-file'] + '"' )
+        output = File.join(@options[:'output-path'], output_file)
+
+        log "Will backup database '#{database_name}'. Output to #{output}"
+        Open3.pipeline(mysqldump, gzip, :out => output, :in => "/dev/null").each do |s|
+          raise "Process failed: #{s.exitstatus}" unless s.exitstatus == 0
+        end
+      end
     end
   end
 end
