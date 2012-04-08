@@ -1,5 +1,4 @@
 module MysqlTools
-
   class Backup
     def self.pre(global, options, args)
       verbose "Backup command, pre check."
@@ -7,7 +6,13 @@ module MysqlTools
       return true
     end
 
-    def initialize(global, options, arg)
+    def initialize(global, options, args)
+      @global, @options, @args = global, options, args
+    end
+
+    def run
+      puts "Work work work."
+      raise "Not implemented yet."
     end
   end
 end
