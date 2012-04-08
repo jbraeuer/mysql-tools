@@ -5,9 +5,6 @@ require 'mysql_tools'
 
 include GLI
 
-program_desc 'Backup, Restore and Obfuscate Mysql databases.'
-version      IO.read(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../VERSION')).strip
-
 pre do |global,command,options,args|
   setup_logging(global)
 
@@ -19,12 +16,8 @@ pre do |global,command,options,args|
   end
 end
 
-post do |global,command,options,args|
-end
-
-on_error do |exception|
-  true
-end
+program_desc 'Backup, Restore and Obfuscate Mysql databases.'
+version      IO.read(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../VERSION')).strip
 
 desc "Username for Mysql connection"
 arg_name "USER"
