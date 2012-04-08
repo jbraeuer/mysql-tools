@@ -27,10 +27,11 @@ module MysqlTools
 
     def self.pre(global, options, args)
       verbose "Backup command, pre check."
-      return false if (global[:username].nil? or
-                       global[:password].nil? or
-                       global[:host].nil?)
-      return true
+      raise "Required parameter missing" if (global[:username].nil? or
+                                             global[:password].nil? or
+                                             global[:host].nil? or
+                                             args.nil? or args.first.nil?)
+      true
     end
 
     # ----------------------------------------

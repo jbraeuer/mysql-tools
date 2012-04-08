@@ -8,9 +8,17 @@ include GLI
 pre do |global,command,options,args|
   setup_logging(global)
 
+  return true if command.nil?
+
   case command.name
   when :backup
     MysqlTools::Backup.pre(global, options, args)
+  when :initobfuscate
+    MysqlTools::InitObfuscate.pre(global, options, args)
+  when :obfuscate
+    MysqlTools::Obfuscate.pre(global, options, args)
+  when :restore
+    MysqlTools::Restore.pre(global, options, args)
   else
     true
   end
@@ -40,5 +48,8 @@ default_value false
 switch [:verbose]
 
 MysqlTools::Backup.init
+MysqlTools::Restore.init
+MysqlTools::Obfuscate.init
+MysqlTools::InitObfuscate.init
 
 exit GLI.run(ARGV)
