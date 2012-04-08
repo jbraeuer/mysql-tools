@@ -1,0 +1,32 @@
+#! /usr/bin/env ruby1.9.1
+
+$: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
+require 'mysql_tools'
+
+include GLI
+
+program_desc 'Backup, Restore and Obfuscate Mysql databases.'
+version      IO.read(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../VERSION')).strip
+
+pre do |global,command,options,args|
+  # Pre logic here
+  # Return true to proceed; false to abort and not call the
+  # chosen command
+  # Use skips_pre before a command to skip this block
+  # on that command only
+  true
+end
+
+post do |global,command,options,args|
+  # Post logic here
+  # Use skips_post before a command to skip this
+  # block on that command only
+end
+
+on_error do |exception|
+  # Error logic here
+  # return false to skip default error handling
+  true
+end
+
+exit GLI.run(ARGV)
