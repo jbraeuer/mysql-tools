@@ -13,7 +13,7 @@ module MysqlTools
 
         c.desc "Output filename"
         c.arg_name "FILENAME"
-        c.default_value '#{database_name}-#{timestamp}.sql'
+        c.default_value '#{database_name}-#{timestamp}.sql.gz'
         c.flag [:'output-file']
 
         c.desc "Output path"
