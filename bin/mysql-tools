@@ -1,4 +1,5 @@
 #! /usr/bin/env ruby1.9.1
+# -*- mode: ruby -*-
 
 $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 require 'mysql_tools'
@@ -8,19 +9,21 @@ include GLI
 pre do |global,command,options,args|
   setup_logging(global)
 
-  return true if command.nil?
-
-  case command.name
-  when :backup
-    MysqlTools::Backup.pre(global, options, args)
-  when :initobfuscate
-    MysqlTools::InitObfuscate.pre(global, options, args)
-  when :obfuscate
-    MysqlTools::Obfuscate.pre(global, options, args)
-  when :restore
-    MysqlTools::Restore.pre(global, options, args)
-  else
+  if command.nil?
     true
+  else
+    case command.name
+    when :backup
+      MysqlTools::Backup.pre(global, options, args)
+    when :initobfuscate
+      MysqlTools::InitObfuscate.pre(global, options, args)
+    when :obfuscate
+      MysqlTools::Obfuscate.pre(global, options, args)
+    when :restore
+      MysqlTools::Restore.pre(global, options, args)
+    else
+      true
+    end
   end
 end
 
