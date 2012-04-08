@@ -18,16 +18,17 @@ end
 
 program_desc 'Backup, Restore and Obfuscate Mysql databases.'
 version      IO.read(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../VERSION')).strip
+config_file  ".mysql-tools.rc"
 
 desc "Username for Mysql connection"
 arg_name "USER"
 default_value "root"
-flag [:u, :username]
+flag [:username, :u]
 
 desc "Password for Mysql connection"
 arg_name "PASS"
 default_value "secret"
-flag [:p, :password]
+flag [:password, :p]
 
 desc "Mysql host to connect"
 arg_name "HOST"
