@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.add_dependency "gli"
   s.add_dependency "mysql2"
   s.add_dependency "my_obfuscate"
+  s.add_dependency "erubis"
 
   s.add_development_dependency "aruba"
   s.add_development_dependency "rake"

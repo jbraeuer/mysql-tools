@@ -1,4 +1,5 @@
 require 'my_obfuscate'
+require 'erubis'
 require 'zlib'
 
 module MysqlTools
@@ -22,6 +23,11 @@ module MysqlTools
         c.default_value '#{dump_file.gsub(".gz", "")}.obfuscate.gz'
         c.flag [:'output-file']
 
+        c.desc "Table prefix"
+        c.arg_name "PREFIX"
+        c.default_value 'sit'
+        c.flag [:'table-prefix']
+
         c.action do |global,command,args|
           MysqlTools::Obfuscate.new(global, command,args).run
         end
@@ -40,8 +46,18 @@ module MysqlTools
       @global, @options, @args = global, options, args
     end
 
+    def map_options(opts)
+      r = {}
+      opts.each_pair do |k,v|
+        r[k] = v unless k.is_a?(Symbol)
+        r[k.to_s.gsub("-","_")] = v if k.is_a?(Symbol)
+      end
+      return r
+    end
+
     def run
-      obfuscate_def = IO.read File.expand_path(@options[:'obfuscate-file'])
+      obfuscate_tmpl = IO.read File.expand_path(@options[:'obfuscate-file'])
+      obfuscate_def = Erubis::Eruby.new(obfuscate_tmpl).result(map_options(@options))
       obfuscate_hash = eval obfuscate_def
 
       @args.each do |dump_file|
