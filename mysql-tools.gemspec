@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec"
 
-  s.files        = Dir.glob("{bin,lib}/**/*") + %w(LICENSE.txt Readme.md)
+  s.files        = Dir.glob("{bin,lib}/**/*") + %w(LICENSE.txt Readme.md VERSION)
   s.executables  = ['mysql-tools', 'mysql-tools-test']
   s.require_path = 'lib'
 end
