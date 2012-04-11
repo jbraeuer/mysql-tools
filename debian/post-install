@@ -1,0 +1,4 @@
+#! /bin/bash
+
+set -e
+ln -sf ../../var/lib/gems/1.9.1/bin/mysql-tools /usr/bin/mysql-tools

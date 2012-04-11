@@ -32,6 +32,8 @@ task :deb => [:package] do
     system(%{fpm1.9.1 -s gem -t deb
 	        --gem-gem=/usr/bin/gem1.9.1
  	    	--gem-package-prefix=rubygem19
+ 	    	--post-install=../debian/post-install
+ 	    	--post-uninstall=../debian/post-uninstall
             	--depends rubygems1.9.1 mysql-tools*.gem
 	    }.delete("\n"))
   end
