@@ -27,6 +27,16 @@ spec.version = IO.read("VERSION").strip
 Gem::PackageTask.new(spec) do |pkg|
 end
 
+task :deb => [:package] do
+  Dir.chdir "pkg" do
+    system(%{fpm1.9.1 -s gem -t deb
+	        --gem-gem=/usr/bin/gem1.9.1
+ 	    	--gem-package-prefix=rubygem19
+            	--depends rubygems1.9.1 mysql-tools*.gem
+	    }.delete("\n"))
+  end
+end
+
 # - aruba (cucumber) tests
 # ----------------------------------------
 Cucumber::Rake::Task.new(:features) do |t|
