@@ -44,8 +44,11 @@ module MysqlTools
 
     def run
       @args.each do |database_name|
-        mysqldump = ["mysqldump", "--quick", "--single-transaction", "--hex-blob",
-                     "--complete-insert", "--default-character-set=utf8",
+        mysqldump = ["mysqldump",
+                     # consistent DB dumps
+                     "--single-transaction",
+                     # make dump "nicer", so my_obfuscate can read it and Ruby does not choke
+                     "--complete-insert", "--default-character-set=utf8", "--hex-blob",
                      "--user=#{@global[:username]}", "--password=#{@global[:password]}", database_name]
         gzip = ["nice", "pigz"]
 
