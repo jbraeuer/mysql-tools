@@ -43,6 +43,8 @@ module MysqlTools
     end
 
     def run
+      timestamp = Time.now.strftime("%Y%m%d-%H%M%S")
+
       @args.each do |database_name|
         mysqldump = ["mysqldump",
                      # consistent DB dumps
@@ -52,7 +54,6 @@ module MysqlTools
                      "--user=#{@global[:username]}", "--password=#{@global[:password]}", database_name]
         gzip = ["nice", "pigz"]
 
-        timestamp = Time.now.strftime("%Y%m%d-%H%M%S")
         output_file = eval( '"' + @options[:'output-file'] + '"' )
         output = File.join(@options[:'output-path'], output_file)
 
