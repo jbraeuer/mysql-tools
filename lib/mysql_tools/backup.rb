@@ -22,6 +22,10 @@ module MysqlTools
         c.default_value '.'
         c.flag [:'output-path']
 
+        c.desc "Limit"
+        c.arg_name "ROWS"
+        c.flag [:'limit']
+
         c.action do |global,command,args|
           MysqlTools::Backup.new(global, command,args).run
         end
@@ -52,11 +56,14 @@ module MysqlTools
       tempfile.write(content.gsub(/^\t+/, ""))
       tempfile.size # will flush as side-effect
 
-      [ "mysqldump", "--defaults-file=#{tempfile.path}",
+      limit = []
+      limit << "--where=1 limit #{@options[:limit]}" unless @options[:limit].nil?
+
+      [ "mysqldump", "--defaults-file=#{tempfile.path}"
         # consistent DB dumps
         "--single-transaction",
         # make dump "nicer", so my_obfuscate can read it and Ruby does not choke
-        "--complete-insert", "--default-character-set=utf8", "--hex-blob" ]
+        "--complete-insert", "--default-character-set=utf8", "--hex-blob" ] + limit
     end
 
     def run
@@ -74,8 +81,8 @@ module MysqlTools
           output_file = eval( '"' + @options[:'output-file'] + '"' )
           output = File.join(@options[:'output-path'], output_file)
 
-          log "Will backup database '#{database_name}'. Output to #{output}"
-          verbose "Will run: #{mysqldump.inspect}; #{compress.inspect}"
+          log "Will backup database '#{database_name}'. Output to #{output}. Limit #{@options[:limit].nil? ? 'none' : @options[:limit]}."
+          verbose "Will run: #{(mysqldump + [database_name]).inspect}; #{compress.inspect}"
           Open3.pipeline(mysqldump + [database_name], compress, :out => output, :in => "/dev/null").each do |s|
             unless s.exitstatus == 0
               File.unlink(output)
