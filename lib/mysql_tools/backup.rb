@@ -59,7 +59,7 @@ module MysqlTools
       limit = []
       limit << "--where=1 limit #{@options[:limit]}" unless @options[:limit].nil?
 
-      [ "mysqldump", "--defaults-file=#{tempfile.path}"
+      [ "mysqldump", "--defaults-file=#{tempfile.path}",
         # consistent DB dumps
         "--single-transaction",
         # make dump "nicer", so my_obfuscate can read it and Ruby does not choke
