@@ -17,6 +17,9 @@ module MysqlTools
         c.default_value 'test'
         c.flag [:db]
 
+        c.desc "Dont create DB user"
+        c.switch [:'no-user']
+
         c.desc "DB Username"
         c.arg_name "USER"
         c.default_value 'user'
@@ -55,7 +58,11 @@ module MysqlTools
 
       conn.query "drop database if exists #{@options[:db]}"
       conn.query "create database #{@options[:db]}"
-      conn.query "grant all privileges ON #{@options[:db]}.* TO '#{@options[:'db-username']}'@'%' IDENTIFIED BY '#{@options[:'db-password']}' with grant OPTION;"
+      unless @options[:'no-user']
+        conn.query "grant all privileges ON #{@options[:db]}.* TO '#{@options[:'db-username']}'@'%' IDENTIFIED BY '#{@options[:'db-password']}' with grant OPTION;"
+      else
+        verbose "SKIP creating DB user (as requested)."
+      end
       conn.close
       verbose "Database created, user rights granted."
 
