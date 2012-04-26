@@ -20,8 +20,13 @@ module MysqlTools
 
         c.desc "Output filename"
         c.arg_name "FILENAME"
-        c.default_value '#{dump_file.gsub(".gz", "")}.obfuscate.gz'
-        c.flag [:'output-file']
+        c.default_value '#{File.basename(dump_file).gsub("sql.gz", "sql.obfuscate.gz")}'
+        c.flag [:'output-filename']
+
+        c.desc "Output directory"
+        c.arg_name "DIRECTORY"
+        c.default_value '#{File.dirname(dump_file)}'
+        c.flag [:'output-directory']
 
         c.desc "Table prefix"
         c.arg_name "PREFIX"
@@ -65,7 +70,9 @@ module MysqlTools
 
         input = Zlib::GzipReader.new File.open(File.expand_path(dump_file),'r')
 
-        output_file = eval( '"' + @options[:'output-file'] + '"' )
+        output_filename = eval( '"' + @options[:'output-filename'] + '"' )
+        output_directory = eval( '"' + @options[:'output-directory'] + '"' )
+        output_file = File.join(output_directory, output_filename)
         output = Zlib::GzipWriter.new File.open(output_file, 'w')
 
         obfuscator.obfuscate(input, output)
