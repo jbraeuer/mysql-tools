@@ -81,7 +81,7 @@ module MysqlTools
           output_file = eval( '"' + @options[:'output-file'] + '"' )
           output = File.join(@options[:'output-path'], output_file)
 
-          log "Will backup database '#{database_name}'. Output to #{output}. Limit #{@options[:limit].nil? ? 'none' : @options[:limit]}."
+          verbose  "Will backup database '#{database_name}'. Output to #{output}. Limit #{@options[:limit].nil? ? 'none' : @options[:limit]}."
           verbose "Will run: #{(mysqldump + [database_name]).inspect}; #{compress.inspect}"
           Open3.pipeline(mysqldump + [database_name], compress, :out => output, :in => "/dev/null").each do |s|
             unless s.exitstatus == 0
