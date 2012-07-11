@@ -59,7 +59,9 @@ module MysqlTools
       conn.query "drop database if exists #{@options[:db]}"
       conn.query "create database #{@options[:db]}"
       unless @options[:'no-user']
-        conn.query "grant all privileges ON #{@options[:db]}.* TO '#{@options[:'db-username']}'@'%' IDENTIFIED BY '#{@options[:'db-password']}' with grant OPTION;"
+        conn.query "GRANT ALL PRIVILEGES ON #{@options[:db]}.* TO '#{@options[:'db-username']}'@'%'         IDENTIFIED BY '#{@options[:'db-password']}';"
+        conn.query "GRANT ALL PRIVILEGES ON #{@options[:db]}.* TO '#{@options[:'db-username']}'@'localhost' IDENTIFIED BY '#{@options[:'db-password']}';"
+        conn.query "FLUSH PRIVILEGES;"
       else
         verbose "SKIP creating DB user (as requested)."
       end
