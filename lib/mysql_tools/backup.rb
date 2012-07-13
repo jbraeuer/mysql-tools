@@ -67,8 +67,6 @@ module MysqlTools
     end
 
     def run
-      File.umask 0077
-
       timestamp = Time.now.strftime("%Y%m%d-%H%M%S")
       tempfile = Tempfile.new("mysql-tools")
 
