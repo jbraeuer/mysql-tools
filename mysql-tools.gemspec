@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.version     = "9999.9.9"
   s.platform    = Gem::Platform::RUBY
   s.authors     = [ "Jens Braeuer" ]
-  s.email       = [ "braeuer.jens@googlemail.com" ]
+  s.email       = [ "braeuer.jens@gmail.com" ]
   s.homepage    = "https://github.com/jbraeuer/mysql-tools"
   s.summary     = "Backup/Restore/Obfuscate Mysql dumps"
   s.description = "Backup, Restore and Obfuscate database dumps."
