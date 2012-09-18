@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.description = "Backup, Restore and Obfuscate database dumps."
   s.required_rubygems_version = ">= 1.3.6"
 
-  s.add_dependency "gli"
+  s.add_dependency "gli", "2.1.0"
   s.add_dependency "mysql2"
   s.add_dependency "my_obfuscate"
   s.add_dependency "erubis"
