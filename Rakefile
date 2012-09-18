@@ -49,4 +49,4 @@ end
 
 # - to be used by Jenkins
 # ----------------------------------------
-task :all => [:clean, :features, :deb]
+task :all => [:clobber, :features, :deb]
