@@ -2,9 +2,13 @@
 # -*- mode: ruby -*-
 
 $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
-require 'mysql_tools'
+
+require 'rubygems'
+require 'gli'
 
 include GLI::App
+
+require 'mysql_tools'
 
 pre do |global,command,options,args|
   setup_logging(global)
@@ -50,9 +54,6 @@ desc "Verbose mode"
 default_value false
 switch [:verbose]
 
-MysqlTools::Backup.init
-MysqlTools::Restore.init
-MysqlTools::Obfuscate.init
-MysqlTools::InitObfuscate.init
+commands_from "mysql_tools/commands"
 
 exit run(ARGV)
