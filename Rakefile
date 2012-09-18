@@ -46,3 +46,7 @@ Cucumber::Rake::Task.new(:features) do |t|
   t.cucumber_opts = "features --format pretty -x"
   t.fork = false
 end
+
+# - to be used by Jenkins
+# ----------------------------------------
+task :all => [:clean, :features, :deb]
