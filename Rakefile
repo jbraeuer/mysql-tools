@@ -32,6 +32,7 @@ task :deb => [:package] do
     system(%{fpm1.9.1 -s gem -t deb
 	        --gem-gem=/usr/bin/gem1.9.1
  	    	--gem-package-name-prefix=rubygem19
+ 	    	--gem-bin-path=/usr/bin
  	    	--post-install=../debian/post-install
  	    	--post-uninstall=../debian/post-uninstall
             	--depends rubygems1.9.1 --depends pigz mysql-tools*.gem
