@@ -4,7 +4,7 @@
 $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 require 'mysql_tools'
 
-include GLI
+include GLI::App
 
 pre do |global,command,options,args|
   setup_logging(global)
@@ -55,4 +55,4 @@ MysqlTools::Restore.init
 MysqlTools::Obfuscate.init
 MysqlTools::InitObfuscate.init
 
-exit GLI.run(ARGV)
+exit run(ARGV)
