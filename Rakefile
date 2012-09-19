@@ -29,11 +29,12 @@ end
 
 task :deb => [:package] do
   Dir.chdir "pkg" do
-    system(%{fpm1.9.1 -s gem -t deb
-	        --gem-gem=/usr/bin/gem1.9.1
- 	    	--gem-package-name-prefix=rubygem19
- 	    	--gem-bin-path=/usr/bin
-            	--depends rubygems1.9.1 --depends pigz mysql-tools*.gem
+    system(%{fakeroot
+               fpm1.9.1 -s gem -t deb
+	         --gem-gem=/usr/bin/gem1.9.1
+ 	         --gem-package-name-prefix=rubygem19
+ 	         --gem-bin-path=/usr/bin
+                 --depends rubygems1.9.1 --depends pigz mysql-tools*.gem
 	    }.delete("\n"))
   end
 end
