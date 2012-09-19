@@ -33,8 +33,6 @@ task :deb => [:package] do
 	        --gem-gem=/usr/bin/gem1.9.1
  	    	--gem-package-name-prefix=rubygem19
  	    	--gem-bin-path=/usr/bin
- 	    	--post-install=../debian/post-install
- 	    	--post-uninstall=../debian/post-uninstall
             	--depends rubygems1.9.1 --depends pigz mysql-tools*.gem
 	    }.delete("\n"))
   end
