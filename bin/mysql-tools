@@ -4,6 +4,7 @@
 $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 
 require 'rubygems'
+require 'pathname'
 require 'gli'
 
 include GLI::App
